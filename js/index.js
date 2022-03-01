@@ -449,6 +449,7 @@ const loadFruit = async (param) => {
 };
 
 // loadFruit("all");
+
 function displayFruit(data) {
   const imagesList = document.querySelector(".fruit-image-list");
 
