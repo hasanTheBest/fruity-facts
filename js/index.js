@@ -434,9 +434,33 @@ const data = [
     },
   },
 ];
+
+// pagination
+const paging = {
+  page: 0,
+  itemPerPage: 6,
+};
+
+// Base url of the api
 const URL =
   "https://cors-anywhere.herokuapp.com/https://www.fruityvice.com/api/fruit/";
 
+// Event listener to load
+document.addEventListener("DOMContentLoaded", () => {
+  displayFruit(data.slice(paging.page, paging.itemPerPage));
+});
+
+// add click event to show next button
+selectDOM(".fruit-image-list").addEventListener("click", (e) => {
+  // stop propagation
+  e.stopImmediatePropagation();
+
+  if (e.target.className.includes("show-next-button")) {
+    showNextItems(paging.page, paging.itemPerPage);
+  }
+});
+
+// loading fruits
 const loadFruit = async (param) => {
   try {
     const res = await fetch(URL + param);
@@ -450,12 +474,14 @@ const loadFruit = async (param) => {
 
 // loadFruit("all");
 
+// displaying fruits
 function displayFruit(data) {
-  const imagesList = document.querySelector(".fruit-image-list");
+  const imagesList = selectDOM(".fruit-image-list");
 
   const listItem = data.map(({ name, family, order, genus, nutritions }) => {
     return `
-      <div class="card mb-3">
+    <div class="col">
+      <div class="card bg-light shadow">
         <div class="card-body">
           <h5 class="card-title text-center">${name}</h5>
           <div class="card-text">
@@ -469,22 +495,43 @@ function displayFruit(data) {
           </div>
         </div>
       </div>
+    </div>
     `;
   });
 
   imagesList.innerHTML = listItem.join("");
+  createShowNextNode(imagesList);
+  // page increase to
+  paging.page++;
 }
 
+// showing fruits meta info - nutritions value
 function showNutrition(nutritions) {
   const listItem = Object.entries(nutritions).map((item) => {
     const [name, amount] = item;
 
-    return `<li class="list-group-item">${name} <span>${amount}</span></li>`;
+    return `<li class="list-group-item text-secondary"><span class="text-capitalized">${name}</span> <span>${amount}</span></li>`;
   });
 
   return listItem.join("");
 }
 
-document.addEventListener("DOMContentLoaded", () => {
-  displayFruit(data);
-});
+// showing next fruit items
+function showNextItems(page, items) {
+  displayFruit(data.slice(page * items, page * items + items));
+}
+
+// show next dom
+function createShowNextNode(parent) {
+  const col = document.createElement("div");
+  col.classList.add("col-12", "text-center");
+
+  col.innerHTML = `<button class="btn btn-primary show-next-button">Show Next</button>`;
+
+  parent.appendChild(col);
+}
+
+// select dom element
+function selectDOM(selector) {
+  return document.querySelector(selector);
+}
