@@ -435,6 +435,34 @@ const apiResponse = [
   },
 ];
 
+// spinners
+const spinners = `
+  <div class="col-12 col-md-12 spinners py-5 px-3">
+    <div class="spinner-border text-primary" role="status">
+      <span class="visually-hidden">Loading...</span>
+    </div>
+    <div class="spinner-border text-danger" role="status">
+      <span class="visually-hidden">Loading...</span>
+    </div>
+    <div class="spinner-border text-success" role="status">
+      <span class="visually-hidden">Loading...</span>
+    </div>
+    <div class="spinner-border text-info" role="status">
+      <span class="visually-hidden">Loading...</span>
+    </div>
+    <div class="spinner-border text-warning" role="status">
+      <span class="visually-hidden">Loading...</span>
+    </div>
+  </div>
+`;
+
+// spinner
+const spinner = `
+  <div class="spinner-border text-white load-more-spinner" role="status">
+    <span class="visually-hidden">Loading...</span>
+  </div>
+`;
+
 // pagination
 const paging = {
   page: 0,
@@ -460,7 +488,10 @@ const loadFruit = async (param) => {
 
 // Event listener to load
 document.addEventListener("DOMContentLoaded", () => {
-  displayFruit(apiResponse.slice(paging.page, paging.itemPerPage));
+  selectDOM(".fruit-image-list").innerHTML = spinners;
+  setTimeout(() => {
+    displayFruit(apiResponse.slice(paging.page, paging.itemPerPage));
+  }, 2000);
 });
 
 // add click event to show next button
@@ -469,15 +500,21 @@ selectDOM(".fruit-image-list").addEventListener("click", (e) => {
   e.stopImmediatePropagation();
 
   if (e.target.className.includes("load-more-button")) {
-    showNextItems(paging.page, paging.itemPerPage);
+    e.target.innerHTML =
+      spinner + "<span class='load-spinner-text'>loading ...</span>";
+    setTimeout(() => {
+      showNextItems(paging.page, paging.itemPerPage);
 
-    // remove load more button
-    if (
-      e.target.parentElement.parentElement.childElementCount <
-      paging.page * paging.itemPerPage
-    ) {
-      e.target.parentElement.parentElement.removeChild(e.target.parentElement);
-    }
+      // remove load more button
+      if (
+        e.target.parentElement.parentElement.childElementCount <
+        paging.page * paging.itemPerPage
+      ) {
+        e.target.parentElement.parentElement.removeChild(
+          e.target.parentElement
+        );
+      }
+    }, 2000);
   }
 });
 
@@ -490,6 +527,7 @@ function displayFruit(data) {
     addInnerHtml(data, imagesList);
   } else {
     insertBeforeNextBtn(data, imagesList);
+    imagesList.lastElementChild.children[0].innerHTML = "Load More";
   }
 
   // at least 6 data
