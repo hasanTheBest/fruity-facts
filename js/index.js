@@ -4,7 +4,7 @@ const apiResponse = [
     name: "Apple",
     id: 6,
     family: "Rosaceae",
-    order: "Rosales",
+    order: "Rosaceae",
     nutritions: {
       carbohydrates: 11.4,
       protein: 0.3,
@@ -467,6 +467,7 @@ const spinner = `
 const paging = {
   page: 0,
   itemPerPage: 6,
+  items: apiResponse.length,
 };
 
 // Base url of the api
@@ -518,11 +519,48 @@ selectDOM(".fruit-image-list").addEventListener("click", (e) => {
   }
 });
 
+// Event listener to filter
+selectDOM(".filter-fruit-nav").addEventListener("click", (e) => {
+  e.stopImmediatePropagation();
+
+  switch (e.target.id) {
+    case "genus":
+      filteredFruits(apiResponse, e);
+      return;
+    case "order":
+      filteredFruits(apiResponse, e);
+      return;
+    case "family":
+      filteredFruits(apiResponse, e);
+      return;
+  }
+});
+
+// filter Items
+function filteredFruits(responseToFilter, e) {
+  selectDOM(".fruit-image-list").innerHTML = spinners;
+
+  const data = responseToFilter.filter(
+    (item) =>
+      item[e.target.id].toLowerCase() === e.target.innerText.toLowerCase()
+  );
+
+  console.log("api filter", responseToFilter, data);
+
+  setTimeout(() => {
+    displayFruit(data.slice(0, paging.itemPerPage), true);
+  }, 2000);
+}
+
 // displaying fruits
-function displayFruit(data) {
+function displayFruit(data, filter = false) {
   const imagesList = selectDOM(".fruit-image-list");
 
-  if (0 === paging.page) {
+  if (filter) {
+    paging.page = 0;
+  }
+
+  if (0 === paging.page || filter) {
     // add inner html to fruit-image-list row
     addInnerHtml(data, imagesList);
   } else {

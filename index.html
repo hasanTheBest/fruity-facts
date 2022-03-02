@@ -16,16 +16,21 @@
   </head>
   <body>
     <div class="container-fluid">
-      <div class="row">
-        <header class="p-3 text-center bg-light">
+      <header class="row bg-light">
+        <div class="col-md-9 offset-md-3 p-3 text-center">
           <h4>Fruity Facts</h4>
           <small>The facts and nutrition value of the fruits</small>
+          </div>
         </header>
+
+        <div class="row">
         <aside class="col-md-3 menu bg-light">
-          <nav class="nav flex-column text-end">
-            <a class="nav-link active" aria-current="page" href="#">Active</a>
-            <a class="nav-link" href="#">Link</a>
-            <a class="nav-link" href="#">Link</a>
+          <nav class="nav flex-column text-end filter-fruit-nav">
+            <a class="nav-link" id="family" aria-current="page" href="#"
+              >Rosaceae</a
+            >
+            <a class="nav-link" id="order" href="#">Rosales</a>
+            <a class="nav-link" id="genus" href="#">Prunus</a>
           </nav>
         </aside>
 
@@ -73,11 +78,16 @@
             </li> -->
           </div>
         </main>
-        <footer class="p-3 text-center bg-light">
-          &copy;
-          <a href="https://linkedin.com/m-hasan-ru" target="blank">Mahmud</a>,
-          2022 | All rights reserved
-        </footer>
+        </div>
+        
+        <footer class="row bg-light">
+          <div class="col-md-9 offset-md-3 p-3 text-center">
+
+            &copy;
+            <a href="https://linkedin.com/m-hasan-ru" target="blank">Mahmud</a>,
+            2022 | All rights reserved
+          </div>
+          </footer>
       </div>
     </div>
     <!-- script -->
