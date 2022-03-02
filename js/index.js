@@ -1,4 +1,4 @@
-const data = [
+const apiResponse = [
   {
     genus: "Malus",
     name: "Apple",
@@ -445,21 +445,6 @@ const paging = {
 const URL =
   "https://cors-anywhere.herokuapp.com/https://www.fruityvice.com/api/fruit/";
 
-// Event listener to load
-document.addEventListener("DOMContentLoaded", () => {
-  displayFruit(data.slice(paging.page, paging.itemPerPage));
-});
-
-// add click event to show next button
-selectDOM(".fruit-image-list").addEventListener("click", (e) => {
-  // stop propagation
-  e.stopImmediatePropagation();
-
-  if (e.target.className.includes("load-more-button")) {
-    showNextItems(paging.page, paging.itemPerPage);
-  }
-});
-
 // loading fruits
 const loadFruit = async (param) => {
   try {
@@ -471,8 +456,30 @@ const loadFruit = async (param) => {
     console.log(err);
   }
 };
-
 // loadFruit("all");
+
+// Event listener to load
+document.addEventListener("DOMContentLoaded", () => {
+  displayFruit(apiResponse.slice(paging.page, paging.itemPerPage));
+});
+
+// add click event to show next button
+selectDOM(".fruit-image-list").addEventListener("click", (e) => {
+  // stop propagation
+  e.stopImmediatePropagation();
+
+  if (e.target.className.includes("load-more-button")) {
+    showNextItems(paging.page, paging.itemPerPage);
+
+    // remove load more button
+    if (
+      e.target.parentElement.parentElement.childElementCount <
+      paging.page * paging.itemPerPage
+    ) {
+      e.target.parentElement.parentElement.removeChild(e.target.parentElement);
+    }
+  }
+});
 
 // displaying fruits
 function displayFruit(data) {
@@ -485,8 +492,11 @@ function displayFruit(data) {
     insertBeforeNextBtn(data, imagesList);
   }
 
-  if (data.length > paging.page * paging.itemPerPage)
+  // at least 6 data
+  if (apiResponse.length >= data.length && 0 === paging.page) {
     createLoadMoreButton(imagesList);
+  }
+
   // page increase to
   paging.page++;
 }
@@ -504,7 +514,7 @@ function showNutrition(nutritions) {
 
 // showing next fruit items
 function showNextItems(page, items) {
-  displayFruit(data.slice(page * items, page * items + items));
+  displayFruit(apiResponse.slice(page * items, page * items + items));
 }
 
 // create next button element
@@ -545,7 +555,7 @@ function insertBeforeNextBtn(fruits, parent) {
     const html = fruitsCardHtml(name, family, order, genus, nutritions);
 
     col.innerHTML = html;
-    parent.insertBefore(col, parent.lastChild);
+    parent.insertBefore(col, parent.lastElementChild);
   });
 }
 
