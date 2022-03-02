@@ -455,7 +455,7 @@ selectDOM(".fruit-image-list").addEventListener("click", (e) => {
   // stop propagation
   e.stopImmediatePropagation();
 
-  if (e.target.className.includes("show-next-button")) {
+  if (e.target.className.includes("load-more-button")) {
     showNextItems(paging.page, paging.itemPerPage);
   }
 });
@@ -478,29 +478,15 @@ const loadFruit = async (param) => {
 function displayFruit(data) {
   const imagesList = selectDOM(".fruit-image-list");
 
-  const listItem = data.map(({ name, family, order, genus, nutritions }) => {
-    return `
-    <div class="col">
-      <div class="card bg-light shadow">
-        <div class="card-body">
-          <h5 class="card-title text-center">${name}</h5>
-          <div class="card-text">
-            <p class="mb-0 text-secondary">Genus:  ${genus}</p>
-            <p class="mb-0 text-secondary">Family: ${family}</p>
-            <p class="mb-0 text-secondary">Order: ${order}</p>
-            <p>Nutrition:</p>
-            <ol class="list-group list-group-numbered">
-            ${showNutrition(nutritions)}
-            </ol>
-          </div>
-        </div>
-      </div>
-    </div>
-    `;
-  });
+  if (0 === paging.page) {
+    // add inner html to fruit-image-list row
+    addInnerHtml(data, imagesList);
+  } else {
+    insertBeforeNextBtn(data, imagesList);
+  }
 
-  imagesList.innerHTML = listItem.join("");
-  createShowNextNode(imagesList);
+  if (data.length > paging.page * paging.itemPerPage)
+    createLoadMoreButton(imagesList);
   // page increase to
   paging.page++;
 }
@@ -521,12 +507,12 @@ function showNextItems(page, items) {
   displayFruit(data.slice(page * items, page * items + items));
 }
 
-// show next dom
-function createShowNextNode(parent) {
+// create next button element
+function createLoadMoreButton(parent) {
   const col = document.createElement("div");
   col.classList.add("col-12", "text-center");
 
-  col.innerHTML = `<button class="btn btn-primary show-next-button">Show Next</button>`;
+  col.innerHTML = `<button class="btn btn-primary load-more-button">Load More</button>`;
 
   parent.appendChild(col);
 }
@@ -534,4 +520,50 @@ function createShowNextNode(parent) {
 // select dom element
 function selectDOM(selector) {
   return document.querySelector(selector);
+}
+
+// add inner html to image-list row
+function addInnerHtml(fruits, parent) {
+  const listItem = fruits.map(({ name, family, order, genus, nutritions }) => {
+    return `
+    <div class="col">
+      ${fruitsCardHtml(name, family, order, genus, nutritions)}
+      </div>
+    </div>
+    `;
+  });
+
+  parent.innerHTML = listItem.join("");
+}
+
+// insert before next button
+function insertBeforeNextBtn(fruits, parent) {
+  fruits.forEach(({ name, family, order, genus, nutritions }) => {
+    // create a new col
+    const col = document.createElement("div");
+    col.classList.add("col");
+    const html = fruitsCardHtml(name, family, order, genus, nutritions);
+
+    col.innerHTML = html;
+    parent.insertBefore(col, parent.lastChild);
+  });
+}
+
+// fruits card html
+function fruitsCardHtml(name, family, order, genus, nutritions) {
+  return `
+  <div class="card bg-light shadow">
+    <div class="card-body">
+      <h5 class="card-title text-center">${name}</h5>
+      <div class="card-text">
+        <p class="mb-0 text-secondary">Genus:  ${genus}</p>
+        <p class="mb-0 text-secondary">Family: ${family}</p>
+        <p class="mb-0 text-secondary">Order: ${order}</p>
+        <p>Nutrition:</p>
+        <ol class="list-group list-group-numbered">
+        ${showNutrition(nutritions)}
+        </ol>
+      </div>
+    </div>
+  `;
 }
