@@ -520,7 +520,10 @@ selectDOM(".fruit-image-list").addEventListener("click", (e) => {
 });
 
 // Event listener to filter
-selectDOM(".filter-fruit-nav").addEventListener("click", (e) => {
+selectDOM(".filter-fruit-nav").addEventListener("change", (e) => {
+  // console.log("value", e.target.value);
+  // console.log("id", e.target.id);
+
   e.stopImmediatePropagation();
 
   switch (e.target.id) {
@@ -539,13 +542,15 @@ selectDOM(".filter-fruit-nav").addEventListener("click", (e) => {
 // filter Items
 function filteredFruits(responseToFilter, e) {
   selectDOM(".fruit-image-list").innerHTML = spinners;
+  const { id, value } = e.target;
+
+  console.log(id, value);
 
   const data = responseToFilter.filter(
-    (item) =>
-      item[e.target.id].toLowerCase() === e.target.innerText.toLowerCase()
+    (item) => item[id].toLowerCase() === value.toLowerCase()
   );
 
-  console.log("api filter", responseToFilter, data);
+  // console.log("api filter", responseToFilter, data);
 
   setTimeout(() => {
     displayFruit(data.slice(0, paging.itemPerPage), true);
