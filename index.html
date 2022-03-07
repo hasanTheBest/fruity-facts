@@ -30,7 +30,7 @@
             <!-- Family -->
             <div class="form-floating mb-3">
               <select class="form-select" id="family" aria-label="Floating label select example">
-                <option selected>Select Family</option>
+                <option selected value="default">Select Family</option>
                 <option value="actinidiaceae">Actinidiaceae</option><option value="anacardiaceae">Anacardiaceae</option><option value="bromeliaceae">Bromeliaceae</option><option value="caricaceae">Caricaceae</option><option value="cucurbitaceae">Cucurbitaceae</option><option value="ebenaceae">Ebenaceae</option><option value="ericaceae">Ericaceae</option><option value="grossulariaceae">Grossulariaceae</option><option value="malvaceae">Malvaceae</option><option value="moraceae">Moraceae</option><option value="musaceae">Musaceae</option><option value="myrtaceae">Myrtaceae</option><option value="passifloraceae">Passifloraceae</option><option value="rosaceae">Rosaceae</option><option value="rutaceae">Rutaceae</option><option value="sapindaceae">Sapindaceae</option><option value="solanaceae">Solanaceae</option><option value="vitaceae">Vitaceae</option>
               </select>
               <label for="family">Family</label>
@@ -39,7 +39,7 @@
             <!-- Order -->
             <div class="form-floating mb-3">
               <select class="form-select" id="order" aria-label="Floating label select example">
-                <option selected>Select Order</option>
+                <option selected value="default">Select Order</option>
                 <option value="0">0</option><option value="caricacea">Caricacea</option><option value="cucurbitaceae">Cucurbitaceae</option><option value="cucurbitales">Cucurbitales</option><option value="ericales">Ericales</option><option value="malpighiales">Malpighiales</option><option value="malvales">Malvales</option><option value="myrtales">Myrtales</option><option value="none">None</option><option value="poales">Poales</option><option value="rosaceae">Rosaceae</option><option value="rosales">Rosales</option><option value="sapindales">Sapindales</option><option value="saxifragales">Saxifragales</option><option value="solanales">Solanales</option><option value="struthioniformes">Struthioniformes</option><option value="vitales">Vitales</option><option value="zingiberales">Zingiberales</option>
               </select>
               <label for="order">Order</label>
@@ -48,33 +48,15 @@
             <!-- Genus -->
             <div class="form-floating mb-3">
               <select class="form-select" id="genus" aria-label="Floating label select example">
-                <option selected>Select Genus</option>
+                <option selected value="default">Select Genus</option>
                 <option value="ananas">Ananas</option><option value="apteryx">Apteryx</option><option value="carica">Carica</option><option value="citrullus">Citrullus</option><option value="citrus">Citrus</option><option value="cucumis">Cucumis</option><option value="diospyros">Diospyros</option><option value="durio">Durio</option><option value="ficus">Ficus</option><option value="fragaria">Fragaria</option><option value="litchi">Litchi</option><option value="malus">Malus</option><option value="mangifera">Mangifera</option><option value="musa">Musa</option><option value="passiflora">Passiflora</option><option value="prunus">Prunus</option><option value="psidium">Psidium</option><option value="pyrus">Pyrus</option><option value="ribes">Ribes</option><option value="rubus">Rubus</option><option value="solanum">Solanum</option><option value="spondias">Spondias</option><option value="vaccinium">Vaccinium</option><option value="vitis">Vitis</option>
               </select>
               <label for="genus">Genus</label>
             </div>
-
-            <!-- <select id="family" class="form-select mb-3" aria-label="Default select example">
-              <option selected>Select Family</option>
-              <option value="actinidiaceae">Actinidiaceae</option><option value="anacardiaceae">Anacardiaceae</option><option value="bromeliaceae">Bromeliaceae</option><option value="caricaceae">Caricaceae</option><option value="cucurbitaceae">Cucurbitaceae</option><option value="ebenaceae">Ebenaceae</option><option value="ericaceae">Ericaceae</option><option value="grossulariaceae">Grossulariaceae</option><option value="malvaceae">Malvaceae</option><option value="moraceae">Moraceae</option><option value="musaceae">Musaceae</option><option value="myrtaceae">Myrtaceae</option><option value="passifloraceae">Passifloraceae</option><option value="rosaceae">Rosaceae</option><option value="rutaceae">Rutaceae</option><option value="sapindaceae">Sapindaceae</option><option value="solanaceae">Solanaceae</option><option value="vitaceae">Vitaceae</option>
-            </select>
-
-            <select id="order" class="form-select mb-3" aria-label="Default select example">
-              <option selected>Select Order</option>
-              <option value="0">0</option><option value="caricacea">Caricacea</option><option value="cucurbitaceae">Cucurbitaceae</option><option value="cucurbitales">Cucurbitales</option><option value="ericales">Ericales</option><option value="malpighiales">Malpighiales</option><option value="malvales">Malvales</option><option value="myrtales">Myrtales</option><option value="none">None</option><option value="poales">Poales</option><option value="rosaceae">Rosaceae</option><option value="rosales">Rosales</option><option value="sapindales">Sapindales</option><option value="saxifragales">Saxifragales</option><option value="solanales">Solanales</option><option value="struthioniformes">Struthioniformes</option><option value="vitales">Vitales</option><option value="zingiberales">Zingiberales</option>
-            </select>
-
-            <select id="genus" class="form-select mb-3" aria-label="Default select example">
-              <option selected>Select Genus</option>
-              <option value="ananas">Ananas</option><option value="apteryx">Apteryx</option><option value="carica">Carica</option><option value="citrullus">Citrullus</option><option value="citrus">Citrus</option><option value="cucumis">Cucumis</option><option value="diospyros">Diospyros</option><option value="durio">Durio</option><option value="ficus">Ficus</option><option value="fragaria">Fragaria</option><option value="litchi">Litchi</option><option value="malus">Malus</option><option value="mangifera">Mangifera</option><option value="musa">Musa</option><option value="passiflora">Passiflora</option><option value="prunus">Prunus</option><option value="psidium">Psidium</option><option value="pyrus">Pyrus</option><option value="ribes">Ribes</option><option value="rubus">Rubus</option><option value="solanum">Solanum</option><option value="spondias">Spondias</option><option value="vaccinium">Vaccinium</option><option value="vitis">Vitis</option>
-            </select> -->
-            
-            <!-- <a class="nav-link" id="family" aria-current="page" href="#"
-              >Rosaceae</a
-            >
-            <a class="nav-link" id="order" href="#">Rosales</a>
-            <a class="nav-link" id="genus" href="#">Prunus</a> -->
           </nav>
+          <div>
+            <button class="btn btn-primary btn-block  clear-filter" type="button">Clear Filter</button>
+          </div>
         </aside>
 
         <main class="col-md-9 p-3">

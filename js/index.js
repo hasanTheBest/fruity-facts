@@ -467,7 +467,7 @@ const spinner = `
 const paging = {
   page: 0,
   itemPerPage: 6,
-  items: apiResponse.length,
+  filteredItems: null,
 };
 
 // Base url of the api
@@ -475,30 +475,30 @@ const URL =
   "https://cors-anywhere.herokuapp.com/https://www.fruityvice.com/api/fruit/";
 
 // loading fruits
-const loadFruit = async (param) => {
-  try {
-    const res = await fetch(URL + param);
-    const data = await res.json();
+// const loadFruit = async (param) => {
+//   try {
+//     const res = await fetch(URL + param);
+//     const data = await res.json();
 
-    displayFruit(data);
-  } catch (err) {
-    console.log(err);
-  }
-};
+//     displayFruit(data);
+//   } catch (err) {
+//     console.log(err);
+//   }
+// };
 // loadFruit("all");
 
 // Event listener to load
 document.addEventListener("DOMContentLoaded", () => {
-  selectDOM(".fruit-image-list").innerHTML = spinners;
-  setTimeout(() => {
-    displayFruit(apiResponse.slice(paging.page, paging.itemPerPage));
-  }, 2000);
+  loadFruits(apiResponse);
 });
 
 // add click event to show next button
 selectDOM(".fruit-image-list").addEventListener("click", (e) => {
   // stop propagation
   e.stopImmediatePropagation();
+
+  // increase page number
+  paging.page++;
 
   if (e.target.className.includes("load-more-button")) {
     e.target.innerHTML =
@@ -521,10 +521,10 @@ selectDOM(".fruit-image-list").addEventListener("click", (e) => {
 
 // Event listener to filter
 selectDOM(".filter-fruit-nav").addEventListener("change", (e) => {
-  // console.log("value", e.target.value);
-  // console.log("id", e.target.id);
-
   e.stopImmediatePropagation();
+
+  // if first option, placeholder value
+  if (e.target.value === "default") return;
 
   switch (e.target.id) {
     case "genus":
@@ -539,16 +539,33 @@ selectDOM(".filter-fruit-nav").addEventListener("change", (e) => {
   }
 });
 
+// Event listener to clear filter
+selectDOM(".clear-filter").addEventListener("click", () => {
+  loadFruits(apiResponse);
+
+  // set page number to zero, default
+  paging.page = 0;
+});
+
+// load fruits
+function loadFruits(response) {
+  selectDOM(".fruit-image-list").innerHTML = spinners;
+  setTimeout(() => {
+    displayFruit(response.slice(paging.page, paging.itemPerPage));
+  }, 2000);
+}
+
 // filter Items
 function filteredFruits(responseToFilter, e) {
   selectDOM(".fruit-image-list").innerHTML = spinners;
   const { id, value } = e.target;
 
-  console.log(id, value);
-
   const data = responseToFilter.filter(
     (item) => item[id].toLowerCase() === value.toLowerCase()
   );
+
+  // set filtered Items
+  paging.filteredItems = data;
 
   // console.log("api filter", responseToFilter, data);
 
@@ -563,6 +580,11 @@ function displayFruit(data, filter = false) {
 
   if (filter) {
     paging.page = 0;
+
+    // remove load more button
+    // if (imagesList.childElementCount < 6) {
+    //   imagesList.removeChild(imagesList.lastElementChild);
+    // }
   }
 
   if (0 === paging.page || filter) {
@@ -574,23 +596,25 @@ function displayFruit(data, filter = false) {
   }
 
   // at least 6 data
-  if (apiResponse.length >= data.length && 0 === paging.page) {
-    createLoadMoreButton(imagesList);
+  // if (apiResponse.length >= data.length && 0 === paging.page) {
+  if (filter) {
+    if (
+      paging.filteredItems.length > paging.page * paging.itemPerPage &&
+      0 === paging.page
+    ) {
+      createLoadMoreButton(imagesList);
+    }
+  } else {
+    if (
+      apiResponse.length > paging.page * paging.itemPerPage &&
+      0 === paging.page
+    ) {
+      createLoadMoreButton(imagesList);
+    }
   }
 
   // page increase to
-  paging.page++;
-}
-
-// showing fruits meta info - nutritions value
-function showNutrition(nutritions) {
-  const listItem = Object.entries(nutritions).map((item) => {
-    const [name, amount] = item;
-
-    return `<li class="list-group-item text-secondary"><span class="text-capitalized">${name}</span> <span>${amount}</span></li>`;
-  });
-
-  return listItem.join("");
+  // paging.page++;
 }
 
 // showing next fruit items
@@ -657,4 +681,15 @@ function fruitsCardHtml(name, family, order, genus, nutritions) {
       </div>
     </div>
   `;
+}
+
+// showing fruits meta info - nutritions value
+function showNutrition(nutritions) {
+  const listItem = Object.entries(nutritions).map((item) => {
+    const [name, amount] = item;
+
+    return `<li class="list-group-item text-secondary"><span class="text-capitalized">${name}</span> <span>${amount}</span></li>`;
+  });
+
+  return listItem.join("");
 }
