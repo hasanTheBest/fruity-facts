@@ -18,14 +18,16 @@
     <div class="container-fluid">
       <header class="row bg-light">
         <div class="col-md-9 offset-md-3 p-3 text-center">
-          <h4>Fruity Facts</h4>
-          <small>The facts and nutrition value of the fruits</small>
+          <h1>Fruity Facts</h1>
+          <p class="mb-0">The facts and nutrition value of the fruits</p>
           </div>
         </header>
 
         <div class="row">
-        <aside class="col-md-3 menu bg-light">
-          <h4>Filter By</h4>
+        <aside class="col-md-3 menu bg-light d-flex  justify-content-end">
+          <div class="aside-filter p-3 pt-0">
+            <div class="sticky-top">
+          <h4 class="mb-4">Filter</h4>
           <nav class="nav flex-column text-end filter-fruit-nav">
             <!-- Family -->
             <div class="form-floating mb-3">
@@ -54,12 +56,12 @@
               <label for="genus">Genus</label>
             </div>
           </nav>
-          <div>
-            <button class="btn btn-primary btn-block  clear-filter" type="button">Clear Filter</button>
+            <button class="btn btn-primary w-100 clear-filter" type="button">Clear Filter</button>
           </div>
+        </div>
         </aside>
 
-        <main class="col-md-9 p-3">
+        <main class="col-md-9 p-4">
           <div class="row row-cols-md-3 g-4 fruit-list">
           </div>
         </main>
